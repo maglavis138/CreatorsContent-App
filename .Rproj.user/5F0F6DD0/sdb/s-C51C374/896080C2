@@ -1,0 +1,21 @@
+{
+    "collab_server" : "",
+    "contents" : "\nlibrary(DT)\n\n\nformat.func <- \"\n<script type='text/javascript'>\nfunction format ( d ) {\nreturn '<table cellpadding=\\\"5\\\" cellspacing=\\\"0\\\" border=\\\"0\\\" style=\\\"padding-left:50px;\\\">'+\n'<tr>'+\n'<td>Full name:</td>'+\n'<td>'+d[1]+'</td>'+\n'</tr>'+\n'<tr>'+\n'<td>Extension number:</td>'+\n'<td>'+d[4]+'</td>'+\n'</tr>'+\n'</table>';\n}\n</script>\n\"\n\n# UI\ntags$head(HTML(format.func))\n\n\n\ncolumns.to.hide <- c(\"date\", \"categroy\")\n# Javascript uses 0-based index\ncolumns.idx.hidden <- which(names(leaderboard_posts_table) %in% columns.to.hide) - 1\n\ndraw.callback <- \"\nfunction(settings) {\nvar api = this.api();\nvar callback = (function($api) {\nreturn function() {\nvar tr = $(this).parent();\nvar row = $api.row(tr);\nif (row.child.isShown()) {\nrow.child.hide();\ntr.removeClass('shown');\n}\nelse {\nrow.child(format(row.data())).show();\ntr.addClass('shown');\n}\n}\n})(api);\n\n$(this).on('click', 'td.details-control', callback);\n}\"\n\n\n\ndatatable(cbind(' ' = '&oplus;', leaderboard_posts_table), filter = 'top', escape = FALSE, rownames = FALSE, selection = \"single\", class = \"compact\", options = list(autoWidth = FALSE, scrollX = TRUE, pageLength = 25, columnDefs = list(list(visible = FALSE, targets = c(3, 4)), list(orderable = FALSE, className = 'details-control', targets = 0)), dom = \"tip\", drawCallback = I(draw.callback))) %>% \n  formatStyle(columns = \"author_status\", target = \"row\", background = styleEqual(c(\"Contributor\", \"Old Staff\", \"Current Staff\"), colors))%>%\n  formatStyle(0:16, fontWeight = 'bold') %>%\n  formatDate(columns = \"created_time\", method = \"toDateString\") %>%\n  formatPercentage(c(\"perc_fan\", \"perc_viral\", \"ctr\", \"interaction_rate\"), 2) %>%\n  formatCurrency(c(\"link_clicks\", \"post_reach\", \"total_comments\", \"total_likes\", \"total_shares\", \"total_interactions\"), '', digits = 0)\n\n",
+    "created" : 1498068472872.000,
+    "dirty" : true,
+    "encoding" : "",
+    "folds" : "",
+    "hash" : "1103019485",
+    "id" : "896080C2",
+    "lastKnownWriteTime" : 216716848,
+    "last_content_update" : 1498069336297,
+    "path" : null,
+    "project_path" : null,
+    "properties" : {
+        "tempName" : "Untitled2"
+    },
+    "relative_order" : 5,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}

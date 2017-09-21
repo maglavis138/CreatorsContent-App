@@ -1,0 +1,21 @@
+{
+    "collab_server" : "",
+    "contents" : "\nauthor_data <- DataArticles %>%\n  group_by(author) %>%\n  summarise(n = n(), link_clicks = sum(link_clicks)) %>%\n  arrange(-n, -link_clicks)\n\n\nhchart(author_data, \"treemap\", hcaes(x = author, value = n, color = link_clicks))\n\n\n\nds_author_data <- lapply(1:nrow(author_data), function(x){\n  list(name = author_data[x,]$author, value = author_data[x,]$n, colorValue = author_data[x,]$link_clicks)\n})\n\n\nhc <-highchart() %>%\n  hc_colorAxis(minColor = '#FFFFFF', maxColor = JS(\"Highcharts.getOptions().colors[0]\")) %>%\n  hc_add_series(data = ds_author_data, type = \"treemap\") %>%\n  hc_plotOptions(treemap = list(borderColor = \"black\")) %>%\n  hc_add_theme(hc_theme_smpl())\nhc\n  \n  hc_add_series(data = ds_num_reposts, name = \"Num. Reposts\", type = \"column\") %>%\n  hc_add_series(data = ds_lc_originals, name = \"Var. Originals\", type = \"line\", yAxis = 1) %>%\n  hc_add_series(data = ds_lc_reposts, name = \"Var. Reposts\", type = \"line\", yAxis = 1) %>%\n  hc_plotOptions(\n    line = list(stacking = \"normal\", marker = list(enabled = TRUE)), \n    column = list(stacking = \"normal\", grouping = TRUE, shadow = FALSE, borderColor = \"black\")) %>%\n  hc_tooltip(\n    shared = TRUE, \n    pointFormat = '<span style=\"color:{series.color}\">{series.name}</span>: <b>{point.y}</b> ({point.percentage:.0f}%)<br/>')%>%\n  hc_add_theme(hc_theme_smpl())\nhc\n\n",
+    "created" : 1498001704622.000,
+    "dirty" : true,
+    "encoding" : "",
+    "folds" : "",
+    "hash" : "2460825981",
+    "id" : "CC566FC3",
+    "lastKnownWriteTime" : 0,
+    "last_content_update" : 1498252392920,
+    "path" : null,
+    "project_path" : null,
+    "properties" : {
+        "tempName" : "Untitled1"
+    },
+    "relative_order" : 4,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}
